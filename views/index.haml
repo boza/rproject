@@ -1,0 +1,37 @@
+.row
+  %form{action: '/search', method: 'GET'}
+    .large-10.columns
+      %input{type: 'text', name: 'term', placeholder: 'Package Name'}
+    .large-2.columns
+      %input{type: 'submit', value: 'Search', class: "tiny button"}
+
+.row
+  / Main Feed
+  / This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens
+  .large-12.columns
+    - @packages.each do |package|
+      / Feed Entry
+      .row
+      .large-2.columns.small-3
+
+      .large-10.columns
+        %p
+          %strong 
+            = package.name
+            \-
+            = package.version
+        .row
+          .large-2.columns.small-3
+            Description: 
+          .large-10.columns
+            = package.description['Description']
+        .row
+          .large-2.columns.small-3
+            Date:
+          .large-10.columns
+            = package.description['Date']
+      / End Feed Entry
+      %hr/
+
+  
+  = paginate(@packages)

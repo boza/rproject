@@ -1,0 +1,32 @@
+development:
+  sessions:
+    default:
+      identity_map_enabled: true
+      database: r_project_dev
+      hosts:
+        - localhost:27017
+  options:
+    use_utc: true
+
+test:
+  sessions:
+    default:
+      identity_map_enabled: true
+      database: r_project_test
+      hosts:
+        - localhost:27017
+  options:
+    use_utc: true
+
+staging: &heroku
+  sessions:
+    default:
+      identity_map_enabled: true
+      uri: <%= ENV['MONGOHQ_URL'] %>
+      options:
+        database: r_project_production
+  options:
+    use_utc: true
+
+production:
+  <<: *heroku

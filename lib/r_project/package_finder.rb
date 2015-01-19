@@ -12,9 +12,9 @@ module RProject
       end
     end
 
-    def initialize(url, file='/response')
+    def initialize(url)
       @uri = URI(url)
-      @file = TMP_DIR + file
+      @file = TMP_DIR + '/%s/response' % ENV['RACK_ENV']
     end
 
     def get_packges

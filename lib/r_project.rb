@@ -9,12 +9,12 @@ require 'mongoid'
 require 'kaminari/sinatra'
 require 'sidekiq'
 require 'sidetiq'
-require "r_project/version"
-require 'r_project/package_finder'
-require 'r_project/package_information_extractor'
-require 'r_project/package'
-require 'workers/find_packages_worker'
-require 'workers/fetch_description_worker'
+require_relative 'r_project/package_finder'
+require_relative 'r_project/package_information_extractor'
+require_relative 'r_project/package'
+require_relative 'r_project/version'
+require_relative 'workers/find_packages_worker'
+require_relative 'workers/fetch_description_worker'
 
 ENV['RACK_ENV'] ||= 'development'
 

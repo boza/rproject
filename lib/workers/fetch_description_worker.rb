@@ -2,11 +2,12 @@ class FetchDescriptionWorker
   include Sidekiq::Worker
 
   def perform(id)
-    package = RProject::Package.find(id)
-    description = RProject::PackageInformationExtractor.new(package.name, package.version).extract!
-    package.update(description: description, state: 'done')
+    version = RProject::Version.find(id)
+    description_file_info = RProject::PackageInformationExtractor.new(version.package_name, version.number).extract!
+    version.update(version_information: description_file_info, state: 'done')
+    
   rescue
-    package.update(state: 'error')
+    version.update(state: 'error')
   end
 
 end

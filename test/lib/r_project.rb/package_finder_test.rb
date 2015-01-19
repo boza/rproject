@@ -49,7 +49,7 @@ NeedsCompilation: no
     private
 
     def package_finder
-      @package_finder ||= PackageFinder.new("http://cran.r-project.org/src/contrib/PACKAGES", '/test/response')
+      @package_finder ||= PackageFinder.new("http://cran.r-project.org/src/contrib/PACKAGES")
     end
 
   end  

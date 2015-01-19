@@ -9,13 +9,13 @@ class App < Sinatra::Base
   register Kaminari::Helpers::SinatraHelpers
 
   get '/' do
-    @packages = RProject::Package.where(state: 'done').page(params[:page]).per(100)
+    @packages = RProject::Package.includes(:versions).page(params[:page]).per(100)
     haml :index, layout: 'layout'
   end
 
 
   get '/search' do
-    @packages = RProject::Package.where(name: /#{params[:term]}/).where(state: 'done').page(params[:page]).per(100)
+    @packages = RProject::Package.includes(:versions).where(name: %r{#{params[:term]}}).page(params[:page]).per(100)
     haml :index, layout: 'layout'
   end
 

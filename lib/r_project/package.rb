@@ -4,17 +4,34 @@ module RProject
     include Mongoid::Timestamps
 
     field :name
-    field :version
-    field :description, type: Hash, default: {}
-    field :state, type: String, default: 'new'
+    has_many :versions, dependent: :destroy
 
-    def get_description
-      update(state: 'downloading')
-      FetchDescriptionWorker.perform_async(id.to_s)
+    def latest_version_number
+      latest_version.number
     end
 
-    def done?
-      state == 'done'
+    def title
+      latest_version.title
+    end
+
+    def full_description
+      latest_version.full_description
+    end
+
+    def date_publication
+      latest_version.date_publication
+    end
+
+    def authors
+      latest_version.authors
+    end
+
+    def maintainers
+      latest_version.maintainers
+    end
+
+    def latest_version
+      @latest_version ||= versions.last
     end
 
   end  

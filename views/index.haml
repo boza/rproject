@@ -12,24 +12,39 @@
     - @packages.each do |package|
       / Feed Entry
       .row
-      .large-2.columns.small-3
+      .large-3.columns.small-3
 
-      .large-10.columns
+      .large-9.columns
         %p
           %strong 
             = package.name
             \-
-            = package.version
+            = package.latest_version_number
         .row
-          .large-2.columns.small-3
+          .large-3.columns.small-3
             Description: 
-          .large-10.columns
-            = package.description['Description']
+          .large-9.columns
+            = package.full_description
         .row
-          .large-2.columns.small-3
-            Date:
-          .large-10.columns
-            = package.description['Date']
+          .large-3.columns.small-3
+            Date/Publication:
+          .large-9.columns
+            = package.date_publication
+        .row
+          .large-3.columns.small-3
+            Author:
+          .large-9.columns
+            = package.authors        
+        .row
+          .large-3.columns.small-3
+            Maintainer:
+          .large-9.columns
+            = package.maintainers     
+        .row
+          .large-3.columns.small-3
+            Other Versions:
+          .large-9.columns
+            = package.versions.pluck(:number).join(', ')     
       / End Feed Entry
       %hr/
 

@@ -3,19 +3,19 @@ require 'test_helper'
 module RProject
   class PackageTest < Minitest::Test
 
-    def test_description
-      PackageInformationExtractor.expects(:new).with(package.name, package.version).returns( stub(extract!: { 'Title' => 'Package Title' } ))
-      package.get_description
-      package.reload
-      assert_match 'Package Title', package.description['Title']
-      assert package.done?
+    def setup
+      package.versions.create(number: '1.0.0')
+    end
+
+    def test_delegation
+      assert_equal '1.0.0', @package.latest_version_number
     end
 
 
     private
       
     def package
-      @package ||= Package.new(name: "A3", version: '0.9.2')
+      @package ||= Package.create(name: "A3")
     end
 
   end  

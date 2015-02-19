@@ -1,7 +1,5 @@
 module RProject
   class PackageInformationExtractor
-
-    BASE_URL = "http://cran.r-project.org/src/contrib/"
     
     attr_accessor :name, :version, :description
 
@@ -22,7 +20,7 @@ module RProject
     end
 
     def download_tar
-      open(BASE_URL + file_name) do |remote_file|
+      open(RProject.packages_cran_url + file_name) do |remote_file|
         tar_extract = Gem::Package::TarReader.new(Zlib::GzipReader.open(remote_file))
         entry = tar_extract.find { |entry| entry.header.name =~ /DESCRIPTION/ }
         content = entry.read.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: '')

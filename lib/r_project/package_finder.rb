@@ -2,19 +2,16 @@ module RProject
   class PackageFinder
 
     include Enumerable
-    
-    URL = "http://cran.r-project.org/src/contrib/PACKAGES"
-    TMP_DIR = File.expand_path('../../../tmp', __FILE__)
 
     def self.all
-      new(URL).tap do |finder|
+      new.tap do |finder|
         finder.get_packges
       end
     end
 
-    def initialize(url)
-      @uri = URI(url)
-      @file = TMP_DIR + '/%s/response' % ENV['RACK_ENV']
+    def initialize
+      @uri = URI(RProject.packages_list_url)
+      @file = File.expand_path('../../../tmp', __FILE__) + "/#{ENV['RACK_ENV']}/response"
     end
 
     def get_packges

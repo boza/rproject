@@ -9,6 +9,7 @@ require 'mongoid'
 require 'kaminari/sinatra'
 require 'sidekiq'
 require 'sidetiq'
+require_relative 'configurable'
 require_relative 'r_project/package_finder'
 require_relative 'r_project/package_information_extractor'
 require_relative 'r_project/package'
@@ -26,4 +27,7 @@ OpenURI::Buffer.send :remove_const, 'StringMax'
 OpenURI::Buffer.const_set 'StringMax', 0
 
 module RProject
+  extend Configurable
 end
+
+RProject.config!

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module RProject
-  class PackageFinderTest < Minitest::Test
+  class PackageInformationExtractorTest < Minitest::Test
 
     def setup
       fixture_file_path =  File.expand_path('../../..', __FILE__) + '/fixtures/A3_0.9.2.tar.gz'

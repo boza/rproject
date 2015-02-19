@@ -1,0 +1,43 @@
+.row
+  %form{action: '/search', method: 'GET'}
+    .large-10.columns
+      %input{type: 'text', name: 'term', placeholder: 'Package Name'}
+    .large-2.columns
+      %input{type: 'submit', value: 'Search', class: "tiny button"}
+
+.row
+  .large-12.columns
+    .h3= @person.information
+  .large-12.columns
+    .large-12.columns
+      .h4
+        %strong Maintain Packages
+    - @person.maintained_packages.each do |version|
+      / Feed Entry
+      .row
+      .large-3.columns.small-3
+
+      .large-9.columns
+        %p
+          %strong 
+            = version.package_name
+            \-
+            = version.number
+      %hr/
+
+  .large-12.columns
+    .large-12.columns
+      .h4
+        %strong Owned Packages
+    - @person.owned_packages.each do |version|
+      / Feed Entry
+      .row
+      .large-3.columns.small-3
+
+      .large-9.columns
+        %p
+          %strong 
+            = version.package_name
+            \-
+            = version.number
+      %hr/

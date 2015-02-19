@@ -9,14 +9,18 @@ class FetchDescriptionWorker
     description_file_info.extract_authors.each do |person|
       person = find_person(person)
       version.authors << person
+      person.owned_packages << version
+      person.save
     end
 
     description_file_info.extract_maintainers.each do |person|
       person = find_person(person)
       version.maintainers << person
+      person.maintained_packages << version
+      person.save
     end  
 
-    version.raw_dependencies = description_file_info.raw_dependencies
+    version.raw_dependencies = description_file_info.raw_dependencies.map { |dependency|  { name: dependency.package_name, version: dependency.version } }
     version.state = 'done'
     version.save!
   rescue => e
@@ -27,14 +31,12 @@ class FetchDescriptionWorker
   def find_person(person_information)
     person = RProject::Person.find_or_create_by(name: person_information.name)
     # check if same person
-    if person.email.present?
-      if person.email != person_information.email
-        person = Person.find_by_or_create_by(email: person_information.email).update(name: person_information.name)
-      end
+    if person.email.present? && person.email != person_information.email
+      person = RProject::Person.find_or_create_by(email: person_information.email).update(name: person_information.name)
     else
       person.update(email: person_information.email)  
-    end  
-    person  
-  end
+    end
+    person.is_a?(RProject::Person) ? person : nil
+  end 
 
 end

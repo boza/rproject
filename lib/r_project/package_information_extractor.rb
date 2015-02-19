@@ -51,8 +51,7 @@ module RProject
 
     def raw_dependencies
       parsed_description['Depends'].split(',').map do |dependency|
-        parser = DependencyParser.run(dependency)
-        return { name: parser.package_name, version: parser.version }
+        DependencyParser.run(dependency)
       end
     end
 
@@ -61,9 +60,8 @@ module RProject
 
       parsed_description.fetch(key, '').split(/,|\sand\s/).map(&:strip).map do |person_information|
       
-        next nil if person_information.blank?
-        parser = NameEmailParser.run(person_information)
-        name_and_emails << parser
+        next if person_information.blank?
+        name_and_emails << NameEmailParser.run(person_information)
                 
       end
       name_and_emails

@@ -13,6 +13,21 @@ class App < Sinatra::Base
     haml :index, layout: 'layout'
   end
 
+  get '/person/:id' do
+    @person = RProject::Person.find(params[:id])
+    haml :person, layout: 'layout'
+  end
+
+  get '/package/:id' do
+    @person = RProject::Person.find(params[:id])
+    haml :package, layout: 'layout'
+  end
+
+  get '/package/:package_id/versions/:id' do
+    @package = RProject::Package.find(params[:package_id])
+    @version = @package.versions.find(params[:id])
+    haml :version, layout: 'layout'
+  end
 
   get '/search' do
     @packages = RProject::Package.includes(:versions).where(name: %r{#{params[:term]}}).page(params[:page]).per(100)

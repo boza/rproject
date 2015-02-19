@@ -22,9 +22,10 @@ module RProject
     end
 
     def test_dependency_extraction
-      expected_dependencies = [ {name: 'R' ,version: '>= 2.15.0'}, {name: 'pbapply', version: '> 0.0.0'}, {name: 'xtable', version: '> 0.0.0'} ]
-      dependencies = package_extractor.raw_dependencies.sort_by { |x, y| x[:name] <=> y[:name] } 
-      assert_equal expected_dependencies, dependencies
+      dependencies = package_extractor.raw_dependencies
+      assert_equal 3, dependencies.size
+      assert_match ">= 2.15.0", dependencies.first.version 
+      assert_match "R", dependencies.first.package_name 
     end
 
     def test_parse_description
@@ -36,7 +37,6 @@ module RProject
       extractor.stubs(:parsed_description).returns( { "Author" => "Test1 LastName <test@test.com>,, Test2 and Test3" })
       authors = extractor.extract_authors
       assert_equal 3, authors.size
-      p authors
       assert_match "test@test.com", authors.first.email
       assert_match "Test1 LastName", authors.first.name
     end

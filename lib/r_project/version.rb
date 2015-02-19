@@ -6,6 +6,7 @@ module RProject
     field :number
     field :raw_version_information, type: Hash, default: {}
     field :state, type: String, default: 'new'
+    field :raw_dependencies, type: Array
 
     belongs_to :package
 

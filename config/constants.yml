@@ -1,8 +1,8 @@
 development:
-  packages_list_url: 'http://cran.r-project.org/src/contrib/PACKAGES'
-  packages_cran_url: 'http://cran.r-project.org/src/contrib/'
+  packages_list_url: 'http://cran.at.r-project.org/src/contrib/PACKAGES'
+  packages_cran_url: 'http://cran.at.r-project.org/src/contrib/'
 
 
 test:
-  packages_list_url: 'http://cran.r-project.org/src/contrib/PACKAGES'
-  packages_cran_url: 'http://cran.r-project.org/src/contrib/'
+  packages_list_url: 'http://cran.at.r-project.org/src/contrib/PACKAGES'
+  packages_cran_url: 'http://cran.at.r-project.org/src/contrib/'

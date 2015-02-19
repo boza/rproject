@@ -6,7 +6,7 @@ class FindPackagesWorkerTest < Minitest::Test
     fixture_file_path =  File.expand_path('../../..', __FILE__) + '/fixtures/A3_0.9.2.tar.gz'
     package
     version
-    stub_request(:get, "http://cran.r-project.org/src/contrib/PACKAGES").
+    stub_request(:get, /http:\/\/cran(\..*)?\.r-project.org\/src\/contrib\/PACKAGES/).
       to_return(:status => 200, :body => <<-STRING
 Package: A3
 Version: 0.9.3
@@ -35,7 +35,7 @@ License: GPL-2
 NeedsCompilation: no        
         STRING
         )
-      stub_request(:get, /http:\/\/cran.r\-project.org\/src\/contrib\/.*\.tar\.gz/).
+      stub_request(:get, /http:\/\/cran(\..*)?\.r\-project.org\/src\/contrib\/.*\.tar\.gz/).
     to_return(:status => 200, :body => File.open(fixture_file_path) )   
     worker.perform
   end

@@ -18,8 +18,8 @@ module Configurable
     @@app_constants ||= []
   end
 
-  def root
-    @root ||= File.expand_path("#{__dir__}/../", __FILE__)
+  def config_dir
+    @config_dir ||= File.expand_path("#{__dir__}/../config", __FILE__)
   end
 
   def config_dir=(dir) 
@@ -28,9 +28,6 @@ module Configurable
 
   private
 
-  def config_dir
-    @config_dir ||= File.expand_path("#{__dir__}/../config", __FILE__)
-  end
 
   def constant_file?
     File.exists?("#{config_dir}/constants.yml")

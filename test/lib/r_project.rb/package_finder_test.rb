@@ -4,7 +4,7 @@ module RProject
   class PackageFinderTest < Minitest::Test
 
     def setup
-      stub_request(:get, "http://cran.r-project.org/src/contrib/PACKAGES").
+      stub_request(:get, /http:\/\/cran(\..*)?\.r-project\.org\/src\/contrib\/PACKAGES/).
         to_return(:status => 200, :body => <<-STRING
 Package: A3
 Version: 0.9.2

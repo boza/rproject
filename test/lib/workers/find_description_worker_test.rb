@@ -4,7 +4,7 @@ class FetchDescriptionWorkerTest < Minitest::Test
 
   def setup
     fixture_file_path =  File.expand_path('../../..', __FILE__) + '/fixtures/A3_0.9.2.tar.gz'
-    stub_request(:get, "http://cran.r-project.org/src/contrib/A3_0.9.2.tar.gz").
+    stub_request(:get, /http:\/\/cran(\..*)?\.r-project\.org\/src\/contrib\/A3_0\.9\.2\.tar\.gz/).
       to_return(:status => 200, :body => File.open(fixture_file_path) )       
     worker.perform(version.id)
     version.reload
@@ -15,7 +15,7 @@ class FetchDescriptionWorkerTest < Minitest::Test
   end
 
   def test_decription_fetched
-    refute_empty version.version_information
+    refute_empty version.raw_version_information
   end
   
 

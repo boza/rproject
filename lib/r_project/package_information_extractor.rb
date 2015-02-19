@@ -1,17 +1,24 @@
 module RProject
   class PackageInformationExtractor
     
-    attr_accessor :name, :version, :description
+    attr_accessor :name, :version, :parsed_description
+
+    def self.extract!(name, version)
+      new(name, version).tap do |extractor|
+        extractor.extract!
+      end
+    end
 
     def initialize(name, version)
       @name, @version = name, version
       @raw_description = ''
-      @description = {}
+      @parsed_description = {}
     end
 
     def extract!
       if download_tar 
-        @description = Dcf.parse(@raw_description).first
+        @parsed_description = Dcf.parse(@raw_description).first
+        
       end
     end
 

@@ -5,7 +5,7 @@ module RProject
 
     def setup
       fixture_file_path =  File.expand_path('../../..', __FILE__) + '/fixtures/A3_0.9.2.tar.gz'
-      stub_request(:get, "http://cran.r-project.org/src/contrib/A3_0.9.2.tar.gz").
+      stub_request(:get, /http:\/\/cran(\..*)?\.r\-project.org\/src\/contrib\/A3_0\.9\.2\.tar\.gz/).
         to_return(:status => 200, :body => File.open(fixture_file_path) )     
       package_extractor.extract!
     end
@@ -18,11 +18,11 @@ module RProject
       package_extractor = PackageInformationExtractor.new("A3", '0.9.2')
       package_extractor.expects(:download_tar).returns(nil)
       package_extractor.extract!
-      assert_empty package_extractor.description
+      assert_empty package_extractor.parsed_description
     end
 
     def test_parse_description
-      refute_empty package_extractor.description
+      refute_empty package_extractor.parsed_description
     end
 
 

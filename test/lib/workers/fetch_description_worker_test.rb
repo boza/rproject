@@ -17,7 +17,18 @@ class FetchDescriptionWorkerTest < Minitest::Test
   def test_decription_fetched
     refute_empty version.raw_version_information
   end
-  
+
+  def test_authors_set
+    refute_empty version.authors
+  end
+
+  def test_maintainers_set
+    refute_empty version.maintainers
+  end
+
+  def test_no_extra_person_created
+    assert_equal 1, RProject::Person.count
+  end
 
   private
 

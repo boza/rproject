@@ -1,7 +1,7 @@
 module RProject
   class PackageInformationExtractor
     
-    attr_accessor :name, :version, :parsed_description
+    attr_accessor :name, :version, :parsed_description, :authors, :maintainers, :raw_dependencies
 
     def self.extract!(name, version)
       new(name, version).tap do |extractor|
@@ -18,7 +18,9 @@ module RProject
     def extract!
       if download_tar 
         @parsed_description = Dcf.parse(@raw_description).first
-        
+        @authors            = extract_authors
+        @maintainers        = extract_maintainers
+        @raw_dependencies       = raw_dependencies
       end
     end
 
@@ -38,5 +40,34 @@ module RProject
       "Error: #{e.class}: #{e.message} with package #{name}. Try with next package..."
       return
     end
+
+    def extract_authors
+      extract_person("Author")
+    end
+
+    def extract_maintainers
+      extract_person('Maintainer')
+    end
+
+    def raw_dependencies
+      parsed_description['Depends'].split(',').map do |dependency|
+        parser = DependencyParser.run(dependency)
+        return { name: parser.package_name, version: parser.version }
+      end
+    end
+
+    def extract_person(key)
+      name_and_emails = []
+
+      parsed_description.fetch(key, '').split(/,|\sand\s/).map(&:strip).map do |person_information|
+      
+        next nil if person_information.blank?
+        parser = NameEmailParser.run(person_information)
+        name_and_emails << parser
+                
+      end
+      name_and_emails
+    end
+
   end  
 end
